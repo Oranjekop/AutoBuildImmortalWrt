@@ -6,7 +6,7 @@
 - 支持预安装 Docker（可选）
 - 支持预设 PPPoE 拨号信息（可选）
 - 可自行调整插件
-- 支持x86和MT2500
+- 支持 x86 和 MT2500
 
 ## 如何查询都有哪些插件？
 https://mirrors.sjtug.sjtu.edu.cn/immortalwrt/releases/24.10.5/packages/x86_64/luci/
