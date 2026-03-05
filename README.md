@@ -1,37 +1,57 @@
 # AutoBuildImmortalWrt
 Fork from https://github.com/wukongdaily/AutoBuildImmortalWrt
 
-## 🤔 这是什么？ 
-它是一个工作流。可快速构建 带docker且支持自定义固件大小的 immortalWrt，感谢 wukongdaily
-> 1、支持自定义固件大小 默认2GB <br>
-> 2、支持预安装docker（可选）<br>
-> 3、新增用户预设置pppoe拨号功能<br>
-> 4、增加了升级不修改网络配置<br>
-> 5、可以自行修改build.sh增加插件<br>
+## 🤔 这是什么？
+这是一个用于构建 ImmortalWrt 固件的工作流，支持自定义固件大小、可选预装 Docker、可选预置 PPPoE 拨号信息。
 
-## 如何查询都有哪些插件?
+**主要特性**
+- 支持自定义固件大小（默认 2GB）
+- 支持预安装 Docker（可选）
+- 支持预设 PPPoE 拨号信息（可选）
+- 支持升级不修改网络配置
+- 可通过 build.sh 自行调整插件
+
+## 如何查询都有哪些插件？
 https://mirrors.sjtug.sjtu.edu.cn/immortalwrt/releases/24.10.5/packages/x86_64/luci/
 
-## 旁路由的用户必读
-近期不少用户修改配置文件中的默认ip地址，误认为这个工作流可以直接设置旁路ip。这是巨大的误解，这样设置就乱套了。<br>
-旁路的逻辑应该是单网口模式。根据下面的固件属性可知。单网口默认采取`dhcp模式`，用户应当自行在上一级路由器查看给imm路由器分配的ip地址。
-然后通过该ip来访问imm后台页面，在imm后台页面中，根据自己主路由的网段 自行配置旁路的ip地址。
+## 使用建议
+**旁路由（单网口）**
+- 单网口默认采用 DHCP 模式
+- 请在上级路由器查看分配给 ImmortalWrt 的 IP，再访问后台
+- 后台内按主路由网段自行设置旁路 IP
 
-## 正常路由模式必读
-所谓正常的路由模式 就是指多网口用户，多网口的意思就是2个或者2个以上网口的情况。<br>
-一般wan用于拨号或者自动获取ip <br>
-而其他lan一般是给其他设备分配dhcp<br>
-这种情况下 你可以修改路由器的默认ip  `192.168.20.1` 比如你可以修改为`192.168.80.1 ` 诸如此类。<br>
-没错，修改此ip 无非就是为了避免跟光猫或者跟家庭中的其他路由器网段冲突。大多数用户，无需更改。
+**正常路由（多网口）**
+- 多网口下通常 WAN 口拨号或 DHCP，其他 LAN 口为内网 DHCP
+- 可修改管理地址以避免网段冲突（工作流输入默认 `192.168.20.1`，例如改为 `192.168.80.1`）
 
-## 该固件默认属性？(必读)
-- 该固件刷入【单网口设备】默认采用DHCP模式,自动获得ip。类似NAS的做法
-- 该固件刷入【多网口设备】默认WAN口采用DHCP模式，LAN 口ip为  `192.168.20.1` <br>其中eth0为WAN 其余网口均为LAN
-- 若用户在工作流中勾选了拨号信息 则WAN口模式为pppoe拨号模式。
-- 建议拨号用户使用之前重启一次光猫。
-- 综合上述特点，【单网口设备】应该先接路由器，先在上级路由器查看一下它的ip 再访问。
-- 上述特点 你都可以通过 `99-custom.sh` 配置和调整
+## 该固件默认属性（必读）
+- 单网口设备默认 DHCP 自动获取 IP
+- 多网口设备默认 WAN 口 DHCP，LAN 口 IP 取工作流输入值（默认 `192.168.20.1`；未提供时回退为 `192.168.100.1`）
+- 勾选 PPPoE 时，WAN 口模式为 PPPoE
+- 建议拨号用户使用前重启一次光猫
+- 上述行为可在 `99-custom.sh` 中配置与调整
 
-# 🌟鸣谢
+## 工作流关键输入
+- luci_version：选择 ImmortalWrt 版本
+- rootfs_size：固件根分区大小（MB）
+- custom_router_ip：多网口设备管理地址
+- include_docker：是否编译 Docker 插件
+- enable_pppoe / pppoe_account / pppoe_password：PPPoE 配置
+
+## 平台说明
+**x86-64**
+- 工作流：build-x86-64-immortalwrt-24.10.x
+- 固件输出：immortalwrt-x86-64-generic-squashfs-combined-efi.img.gz
+- 配置文件：x86-64/imm.config
+- 构建脚本：x86-64/build.sh
+
+**GL-MT2500（Filogic）**
+- 工作流：build-GL-MT2500-immortalwrt-24.10.x
+- 硬件版本：airoha / maxlinear
+- 固件输出：bin/targets/mediatek/filogic/*
+- 构建脚本：mediatek-filogic/build24.sh
+- 开机脚本：glinet/99-custom.sh
+
+## 🌟鸣谢
 ### https://github.com/immortalwrt
 ### https://github.com/wukongdaily/AutoBuildImmortalWrt
