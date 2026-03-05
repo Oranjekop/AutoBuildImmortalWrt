@@ -89,6 +89,7 @@ jobs:
             -v "${{ github.workspace }}/bin:/home/build/immortalwrt/bin" \
             -v "${{ github.workspace }}/glinet:/home/build/immortalwrt/files/etc/uci-defaults" \
             -v "${{ github.workspace }}/custom:/home/build/immortalwrt/files/etc/config" \
+            -v "${{ github.workspace }}/mediatek-filogic/arch.conf:/home/build/immortalwrt/files/etc/opkg/arch.conf" \
             -v "${{ github.workspace }}/shell:/home/build/immortalwrt/shell" \
             -v "${{ github.workspace }}/mediatek-filogic/build24.sh:/home/build/immortalwrt/build.sh" \
             -e PROFILE=$PROFILE_NAME \
