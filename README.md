@@ -5,8 +5,8 @@
 - 支持自定义固件大小（默认 2GB）
 - 支持预安装 Docker（可选）
 - 支持预设 PPPoE 拨号信息（可选）
-- 支持升级不修改网络配置
-- 可通过 build.sh 自行调整插件
+- 可自行调整插件
+- 支持x86和MT2500
 
 ## 如何查询都有哪些插件？
 https://mirrors.sjtug.sjtu.edu.cn/immortalwrt/releases/24.10.5/packages/x86_64/luci/
@@ -34,20 +34,6 @@ https://mirrors.sjtug.sjtu.edu.cn/immortalwrt/releases/24.10.5/packages/x86_64/l
 - custom_router_ip：多网口设备管理地址
 - include_docker：是否编译 Docker 插件
 - enable_pppoe / pppoe_account / pppoe_password：PPPoE 配置
-
-## 平台说明
-**x86-64**
-- 工作流：build-x86-64-immortalwrt-24.10.x
-- 固件输出：immortalwrt-x86-64-generic-squashfs-combined-efi.img.gz
-- 配置文件：x86-64/imm.config
-- 构建脚本：x86-64/build.sh
-
-**GL-MT2500（Filogic）**
-- 工作流：build-GL-MT2500-immortalwrt-24.10.x
-- 硬件版本：airoha / maxlinear
-- 固件输出：bin/targets/mediatek/filogic/*
-- 构建脚本：mediatek-filogic/build24.sh
-- 开机脚本：glinet/99-custom.sh
 
 ## 🌟鸣谢
 ### https://github.com/immortalwrt
