@@ -1,6 +1,3 @@
-# AutoBuildImmortalWrt
-Fork from https://github.com/wukongdaily/AutoBuildImmortalWrt
-
 ## 🤔 这是什么？
 这是一个用于构建 ImmortalWrt 固件的工作流，支持自定义固件大小、可选预装 Docker、可选预置 PPPoE 拨号信息。
 
