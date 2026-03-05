@@ -69,15 +69,6 @@ jobs:
             fi
           fi
 
-      - name: Enable Docker (optional)
-        run: |
-          if [ "${{ github.event.inputs.include_docker }}" == "yes" ]; then
-            echo 'CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-dockerman"' >> shell/custom-packages.sh
-            echo "已启用 Docker"
-          else
-            echo "未启用 Docker"
-          fi
-
       - name: Build ImmortalWrt 24.10.5
         run: |
           echo "platform=mediatek/filogic" >> $GITHUB_ENV
@@ -113,7 +104,7 @@ jobs:
         run: |
           cat > ${{ github.workspace }}/router-info.md <<EOF
           ## 📡 路由器后台信息
-          - ## 硬件版本: ${{ github.event.inputs.hardware_variant }}
+          - ⚙️ **硬件版本**: ${{ github.event.inputs.hardware_variant }}
           - 🏠 **后台地址**: ${{ github.event.inputs.custom_router_ip }}
           - 👤 **用户名**: root
           - 🔑 **密码**: 无
