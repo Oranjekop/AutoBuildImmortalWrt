@@ -75,16 +75,9 @@ PACKAGES="$PACKAGES script-utils"
 PACKAGES="$PACKAGES luci-i18n-samba4-zh-cn"
 
 
-# 第三方软件包 合并
 # ======== shell/custom-packages.sh =======
-if [ "$PROFILE" = "glinet_gl-axt1800" ] || [ "$PROFILE" = "glinet_gl-ax1800" ]; then
-    # 这2款 暂时不支持第三方插件的集成 snapshot版本太高 opkg换成apk包管理器 6.12内核 
-    echo "Model:$PROFILE not support third-parted packages"
-    PACKAGES="$PACKAGES -luci-i18n-diskman-zh-cn luci-i18n-homeproxy-zh-cn"
-else
-    echo "Other Model:$PROFILE"
-    PACKAGES="$PACKAGES $CUSTOM_PACKAGES"
-fi
+# 合并imm仓库以外的第三方插件
+PACKAGES="$PACKAGES $CUSTOM_PACKAGES"
 
 # 判断是否需要编译 Docker 插件
 if [ "$INCLUDE_DOCKER" = "yes" ]; then
@@ -107,6 +100,16 @@ else
     echo "⚪️ 未选择 luci-app-openclash"
 fi
 
+# 若构建Nikki 则添加Geo文件
+if echo "$PACKAGES" | grep -q "luci-i18n-nikki-zh-cn"; then
+    echo "✅ 已选择 Nikki，添加 Geo文件"
+    mkdir -p files/etc/nikki/run
+    # Download GeoIP and GeoSite
+    wget -q https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat -O files/etc/nikki/run/GeoIP.dat
+    wget -q https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -O files/etc/nikki/run/GeoSite.dat
+else
+    echo "⚪️ 未选择 Nikki"
+fi
 
 # 构建镜像
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Building image with the following packages:"
